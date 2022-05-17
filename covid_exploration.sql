@@ -1,13 +1,13 @@
 
----- Project: DATA EXPLORATION IN SQL ------------------------------------------------------------------
----- Description: In this project we explore the Covid-19 death and vaccination data in SQL Server. ----
---------------------------------------------------------------------------------------------------------
----- Note: The data and observations are valid as of 16 May 2022. --------------------------------------
----- Note: First move the "population" column to position 5 to get owid-covid-data.xlsx file. ----------
----- Note: To get deaths.xlsx, remove columns AA to BO from owid-covid-data.xlsx file ------------------
----- Note: To get vaccinations.xlsx, remove columns E to Z from owid-covid-data.xlsx file --------------
----- Note: The functions and commands are consistent with Microsoft SQL Server. ------------------------
---------------------------------------------------------------------------------------------------------
+---- Project: DATA EXPLORATION IN SQL --------------------------------------------------------------------
+---- Description: In this project we explore the Covid-19 death and vaccination data in SQL Server. ------
+----------------------------------------------------------------------------------------------------------
+---- Note: The data and observations are valid as of 16 May 2022. ----------------------------------------
+---- Note: "population" column has been moved to position 5 before the column deletion in next steps. ----
+---- Note: To get deaths.xlsx, remove columns AA to BO from owid-covid-data.xlsx file. -------------------
+---- Note: To get vaccinations.xlsx, remove columns E to Z from owid-covid-data.xlsx file. ---------------
+---- Note: The functions and commands are consistent with Microsoft SQL Server. --------------------------
+----------------------------------------------------------------------------------------------------------
 
 -- 1) Let's look at both the "deaths" and "vaccinations" tables.
 	SELECT * FROM deaths
@@ -31,14 +31,14 @@
 	SELECT location, date, total_deaths, total_cases, total_deaths/total_cases*100 as DeathPercentage
 	FROM deaths
 	WHERE location LIKE '%india%'
-	ORDER BY 1,2
+	ORDER BY 1, 2 DESC
 ---  Observation: Death percentage in India is 1.22%.
 
 -- 4) Let's look at Total Cases vs Population in India.
 	SELECT location, date, total_cases, population, total_cases/population*100 as InfectedPercentage
 	FROM deaths
 	WHERE location LIKE '%india%'
-	ORDER BY 1,2
+	ORDER BY 1, 2 DESC
 ---  Observation: Case percentage in India is 3.09%.
 
 -- 5) Let's look at the countries with Highest Infection Rate compared to the population.
@@ -69,7 +69,6 @@
 		SUM(new_deaths)/SUM(new_cases)*100 AS GlobalDeathPercentage
 	FROM deaths
 	WHERE continent IS NOT NULL
-	ORDER BY 1
 ---  Observation: Globally, the death percentage has been 1.20%.
 
 -- 9) Let's get the Total number of Vaccinations on each day for each country using a rolling count.
@@ -120,3 +119,4 @@
 
 -- 12) Let's see the created view.
 	SELECT * FROM ViewAvgDoses
+	ORDER BY AvgDosesPerPerson DESC
